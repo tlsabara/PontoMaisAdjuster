@@ -2,3 +2,4 @@
 venv/
 pytest-cache/
 .idea/
+/dotpluspkg/config.json
