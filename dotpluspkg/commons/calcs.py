@@ -26,9 +26,3 @@ class Calculate:
         else:
             return entry_hour - hora
 
-    def str_02_dig(n: int) -> str:
-        """
-        Only converter a single time hour in a string with 2 chars.
-        :return:
-        """
-        return str(n)[-2:] if n > 9 else '0' + str(n)
