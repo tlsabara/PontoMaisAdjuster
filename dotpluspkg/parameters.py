@@ -35,10 +35,8 @@ class Data:
         access_literal_username = input('\nInforme o Usuário:\n\n>>> ')
         access_literal_password = input('\nInforme a Senha:\n\n>>> ')
 
-
         access_password = cryptocode.encrypt(access_literal_password, CRYPTO_HASH)
         access_username = cryptocode.encrypt(access_literal_username, CRYPTO_HASH)
-
 
         commons_justfy_text = [
             'Esquecimento do registro do dia.',
@@ -127,6 +125,7 @@ class Access:
         self.access_username = cryptocode.decrypt(self._crypt_username, CRYPTO_HASH)
         self.access_password = cryptocode.decrypt(self._crypt_password, CRYPTO_HASH)
 
+
 class Site:
     def __init__(self, data_class_dict):
         self.url_login = data_class_dict.get('site_url_login')
@@ -139,7 +138,8 @@ class Justify:
 
     @property
     def justfy_text(self):
-        return self._justfy_text_list[random.randint(0, len(self.justfy_text_list)-1)]
+        return self._justfy_text_list[random.randint(0, len(self.justfy_text_list) - 1)]
+
 
 class JobTimes:
     def __init__(self, data_class_dict):
@@ -153,9 +153,9 @@ class JobTimes:
         exit_hour = data_class_dict.get('job_time_exit_hour')
         exit_minutes = data_class_dict.get('job_time_exit_minutes')
 
-        self._variations_entry = int(data_class_dict.get('job_time_variations_entry')/2)
-        self._variations_lanch = int(data_class_dict.get('job_time_variations_lanch')/2)
-        self._variations_exit = int(data_class_dict.get('job_time_variations_exit')/2)
+        self._variations_entry = int(data_class_dict.get('job_time_variations_entry') / 2)
+        self._variations_lanch = int(data_class_dict.get('job_time_variations_lanch') / 2)
+        self._variations_exit = int(data_class_dict.get('job_time_variations_exit') / 2)
 
         self._base_entry_clock = self.set_clocks(entry_hour, entry_minutes)
         self._base_lanch_clock = self.set_clocks(lanch_hour, lanch_minutes)
@@ -184,4 +184,3 @@ class JobTimes:
         time = random.randint(-self._variations_exit, self._variations_exit)
         point = self._base_exit_clock + timedelta(minutes=time)
         return f'{point.hour}:{point.minute}'
-
