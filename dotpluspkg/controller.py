@@ -1,8 +1,10 @@
+import datetime
 import json
 
 import cryptocode
 
 from dotpluspkg.commons.parameters import JobTimes, Access, Justify, Site, CRYPTO_HASH, CONFIG_FILENAME
+from dotpluspkg.commons.sheet_elements import WorkDay
 from dotpluspkg.web import PlusBrowser
 
 
@@ -14,15 +16,27 @@ class DotPlus():
     def start(self):
         self.browser.set_up_site()
 
-    def days_to_ajust(self):
-        print(
+    def days_to_ajust(self, list_day: list = None):
+        """
+        Esta função é pra outra coisa
+        no momento estou usando apenas para um teste.
+        é para arrumar isso
+        :return:
+        """
+        # todo arrumar isso
+        a = [
             self.data.job_times.entry_time,
             self.data.job_times.lanch_time,
             self.data.job_times.lanch_endtime,
             self.data.job_times.exit_time
-        )
+        ]
 
-    def ajust_day(self):
+        t = WorkDay(*a)
+        print('Horarios:', *a, sep='\n')
+        print('Work time: ', t.worktime)
+        print('--')
+
+    def ajust_day(self,  day: str | datetime.datetime | datetime.date = None):
         ...
 
 
@@ -42,9 +56,6 @@ class Data:
 
     def parametrizer(self):
         accepted_more_values = 's S sim Sim SIM y Y yes Yes YES'.split()
-
-        # access_literal_username = getpass.getpass('\nInforme o Usuário:\n\n>>> ')
-        # access_literal_password = getpass.getpass('\nInforme a Senha:\n\n>>> ')
 
         access_literal_username = input('\nInforme o Usuário:\n\n>>> ')
         access_literal_password = input('\nInforme a Senha:\n\n>>> ')
@@ -124,7 +135,9 @@ class Data:
             'job_time_variations_entry': int,
             'job_time_variations_lanch': int,
             'job_time_variations_exit': int,
-            'job_time_lanch_duration_minutes': int
+            'job_time_lanch_duration_minutes': int,
+            "auto_ponter_mode": bool,
+            "list_date_control_mode": bool
         }
 
         for k, v in self.data_dict.items():
@@ -133,7 +146,7 @@ class Data:
 
 
 if __name__ == '__main__':
-    print(1)
+    print(CONFIG_FILENAME)
     d = DotPlus()
     d.start()
     d.days_to_ajust()
@@ -142,3 +155,7 @@ if __name__ == '__main__':
     # test.acces_workday_adjust_page(7, 11, 2022)
     # test.acces_workday_adjust_page(29, 12, 2022)
     # todo Desenhar um mapa par entender quais apontamentos foram realizados no dia.
+    # Não esquecer dos: >>>
+    # "auto_ponter_mode": false,
+    # "list_date_control_mode": false
+

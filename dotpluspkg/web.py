@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 
 from dotpluspkg.commons.utils import Selectors
 
+
 class PlusBrowser:
     def __init__(self, master: object):
         self.driver = webdriver.Chrome()

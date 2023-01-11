@@ -1,13 +1,11 @@
-import datetime
-import random
-
-import cryptocode
+import datetime, os, random, cryptocode
 from datetime import datetime, timedelta
-
+from pathlib import Path
 from dotpluspkg.commons.calcs import Calculate
 from dotpluspkg.commons.utils import StrAdjuster
 
-CONFIG_FILENAME = 'config.json'
+BASE_FILENAME = 'config.json'
+CONFIG_FILENAME = Path(os.path.abspath(os.path.curdir)) / BASE_FILENAME
 CRYPTO_HASH = 'a53591d66b212e54b1661eb8f32b5bbfcd19ac704aec3085214a204023435917'
 
 
