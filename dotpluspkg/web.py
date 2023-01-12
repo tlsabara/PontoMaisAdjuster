@@ -1,3 +1,4 @@
+import datetime
 import time
 
 from selenium import webdriver
@@ -5,14 +6,19 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 from dotpluspkg.commons.utils import Selectors
+from dotpluspkg.commons.parameters import Data
 
 
 class PlusBrowser:
-    def __init__(self, master: object):
+    def __init__(self, master: Data):
         self.driver = webdriver.Chrome()
         self.master = master
         self.times_list = []
         self.logged = False
+        self.sleep_time = 5
+
+        self.__adjusting_date: datetime.datetime = None
+        self.date_info = None
 
     def set_up_site(self):
         self.driver.get(self.master.site.url_login)
@@ -53,15 +59,29 @@ class PlusBrowser:
         self.logged = False
 
     def acces_workday_adjust_page(self, workday_day, workday_month, workday_year):
+
+        self.__adjusting_date = datetime.datetime(workday_year, workday_month, workday_day)
         self.driver.get(self.master.site.url_pattern_dia.format(dd=workday_day, mm=workday_month, aaaa=workday_year))
+        time.sleep(self.sleep_time)
         return self
 
     def collect_times(self):
         self.times_list = []
         data = self.driver.find_elements(By.CSS_SELECTOR, Selectors.CSS.adjust_inputs_times)
         for i in data:
-            tmp = {'time': i.get_attribute('value'), 'adjust': False, 'type': 'entry'}
+            tmp = {
+                'time': i.get_attribute('value'),
+                'adjust': False,
+                'type': None,
+                'ref_date': self.__adjusting_date.strftime('%Y-%m-%d')
+            }
             self.times_list.append(tmp)
+        self.date_info = {
+            'date': self.__adjusting_date.strftime('%Y-%m-%d'),
+            'points': self.times_list,
+            'total_time': None,
+            'time_diff': None
+        }
         return self
 
     def _add_point(self):
